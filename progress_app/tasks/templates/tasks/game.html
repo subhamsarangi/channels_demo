@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+</head>
+
+<body>
+    <h1>Rock, Paper, Scissors</h1>
+    <button onclick="sendMove('rock')">Rock</button>
+    <button onclick="sendMove('paper')">Paper</button>
+    <button onclick="sendMove('scissors')">Scissors</button>
+    <div id="result"></div>
+    <script>
+        const DOMAIN_NAME = window.location.host;
+        const PROTOCOL = "ws://";
+        const socket = new WebSocket(PROTOCOL + DOMAIN_NAME + '/ws/game/');
+
+        socket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            document.getElementById('result').innerText = `Computer chose: ${data.computer_move}. You ${data.result}!`;
+        };
+
+        function sendMove(move) {
+            socket.send(JSON.stringify({ 'move': move }));
+        }
+    </script>
+</body>
+
+</html>

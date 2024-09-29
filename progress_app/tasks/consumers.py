@@ -34,3 +34,37 @@ class ProgressConsumer(AsyncWebsocketConsumer):
         await self.send(json.dumps({
             'progress': 100, 'message': 'All tasks completed!'
         }))
+
+
+class GameConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        pass
+
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        player_move = data['move']
+        
+        # Computer makes a move
+        computer_move = random.choice(['rock', 'paper', 'scissors'])
+        
+        # Determine the winner
+        result = self.determine_winner(player_move, computer_move)
+        
+        # Send the result back to the player
+        await self.send(text_data=json.dumps({
+            'computer_move': computer_move,
+            'result': result,
+        }))
+
+    def determine_winner(self, player_move, computer_move):
+        if player_move == computer_move:
+            return 'draw'
+        elif (player_move == 'rock' and computer_move == 'scissors') or \
+             (player_move == 'paper' and computer_move == 'rock') or \
+             (player_move == 'scissors' and computer_move == 'paper'):
+            return 'win'
+        else:
+            return 'lose'

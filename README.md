@@ -16,6 +16,10 @@
 
 [http://localhost:8001/](http://localhost:8001/)
 
+#### see
+
+![Browser](/browser.png)
+
 ### [code snippets](/deets.md)
 
 ### If you want HTTP/2 support and TLS support

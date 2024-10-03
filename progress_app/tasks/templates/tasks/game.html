@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors Game</title>
-</head>
+{% block title %}Rock Paper Scissors Game{% endblock %}
 
-<body>
+{% block content %}
     <h1>Rock, Paper, Scissors</h1>
     <button onclick="sendMove('rock')">Rock</button>
     <button onclick="sendMove('paper')">Paper</button>
@@ -27,6 +22,4 @@
             socket.send(JSON.stringify({ 'move': move }));
         }
     </script>
-</body>
-
-</html>
+{% endblock %}

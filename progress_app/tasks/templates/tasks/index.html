@@ -1,41 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Progress</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .progress-bar {
-            width: 100%;
-            background-color: #e0e0e0;
-        }
+{% block title %}Task Progress{% endblock %}
 
-        .progress {
-            width: 0;
-            height: 30px;
-            background-color: blue;
-            text-align: center;
-            line-height: 30px;
-            color: white;
-        }
+{%block beforebody%}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .progress-bar {
+        width: 100%;
+        background-color: #e0e0e0;
+    }
 
-        .completed-message {
-            display: none;
-            font-size: 20px;
-            margin-top: 20px;
-            color: green;
-        }
+    .progress {
+        width: 0;
+        height: 30px;
+        background-color: blue;
+        text-align: center;
+        line-height: 30px;
+        color: white;
+    }
 
-        .clock {
-            font-size: 24px;
-            margin-top: 20px;
-        }
-    </style>
-</head>
+    .completed-message {
+        display: none;
+        font-size: 20px;
+        margin-top: 20px;
+        color: green;
+    }
 
-<body>
+    .clock {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+</style>
+{%endblock%}
+
+{% block content %}
     <h1>Progress of Tasks</h1>
 
     <div class="progress-bar">
@@ -46,7 +44,9 @@
     <div class="clock" id="clock"></div>
 
     <div><a href="/game">Play tictactoe</a></div>
+{% endblock %}
 
+{%block beforebodyend%}
     <script>
         const progressElement = $("#progress");
         const completedMessage = $("#completedMessage");
@@ -78,6 +78,4 @@
             clockElement.text("Current Time: " + data.clock);
         };
     </script>
-</body>
-
-</html>
+{% endblock %}

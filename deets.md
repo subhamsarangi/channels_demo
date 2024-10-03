@@ -108,3 +108,12 @@ DATABASE_PASSWORD=your_db_password
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
 ```
+
+#### Create models
+- ChatRoom and ChatRoomMembership
+
+#### add mongoengine and pymongo
+`poetry add mongoengine pymongo`
+
+### Create mongo Document Models
+- Message

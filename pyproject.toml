@@ -16,6 +16,8 @@ channels = "4.0.0"
 daphne = "4.0.0"
 python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.9"
+mongoengine = "^0.29.1"
+pymongo = "^4.10.1"
 
 [build-system]
 requires = ["poetry-core"]

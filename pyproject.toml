@@ -1,16 +1,21 @@
 [tool.poetry]
 name = "channels-demo"
+license = "MIT"
+homepage = "https://github.com/subhamsarangi/channels_demo"
+repository = "https://github.com/subhamsarangi/channels_demo"
+keywords = ["django", "channels", "websockets"]
 version = "0.1.0"
 description = ""
 authors = ["subhamsarangi <subhamsarangi2016@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 django = "4.2.5"
 channels = "4.0.0"
 daphne = "4.0.0"
-
+python-dotenv = "^1.0.1"
+psycopg2-binary = "^2.9.9"
 
 [build-system]
 requires = ["poetry-core"]

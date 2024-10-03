@@ -1,8 +1,6 @@
 # SETTING UP TO USE Channels
 
-### install
-
-`pip install django daphne channels`
+### install channels along with django
 
 ### create project and app
 
@@ -79,4 +77,34 @@ application = ProtocolTypeRouter({
         )
     ),
 })
+```
+
+### If you want HTTP/2 support and TLS support
+
+- run `poetry add Twisted[http2,tls]`
+
+#### there are other steps to make use of TLS
+
+- make key: `openssl genrsa -out privatekey.pem 2048`
+
+- make certificate `openssl req -new -x509 -key privatekey.pem -out cert.pem -days 365`
+
+- run daphne with the keys: `daphne -b 0.0.0.0 -e ssl:8001:privateKey=privatekey.pem:certKey=cert.pem progress_app.asgi:application`
+
+### Chat
+
+#### add psycopg2-binary and python-dotenv
+
+`poetry add psycopg2-binary python-dotenv`
+
+#### make a .env file
+```sh
+DJANGO_SECRET_KEY=your-secret-key
+DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+DATABASE_NAME=chatdb
+DATABASE_USER=your_db_user
+DATABASE_PASSWORD=your_db_password
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
 ```

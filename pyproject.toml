@@ -8,6 +8,9 @@ version = "0.1.0"
 description = ""
 authors = ["subhamsarangi <subhamsarangi2016@gmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "progress_app" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -23,3 +26,6 @@ channels-redis = "^4.2.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+devserver = "progress_app.scripts:devserver"

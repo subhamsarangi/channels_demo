@@ -9,9 +9,11 @@ from chat.routing import websocket_urlpatterns as ws_chat
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "progress_app.settings")
 
+ws_patterns = ws_tasks + ws_chat
+
 application = ProtocolTypeRouter(
     {
         "http": get_asgi_application(),
-        "websocket": AuthMiddlewareStack(URLRouter(ws_tasks, ws_chat)),
+        "websocket": AuthMiddlewareStack(URLRouter(ws_patterns)),
     }
 )

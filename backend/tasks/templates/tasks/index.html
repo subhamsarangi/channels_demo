@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Task Progress{% endblock %}
+
+{%block beforebody%}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .progress-bar {
+        width: 100%;
+        background-color: #e0e0e0;
+    }
+
+    .progress {
+        width: 0;
+        height: 30px;
+        background-color: blue;
+        text-align: center;
+        line-height: 30px;
+        color: white;
+    }
+
+    .completed-message {
+        display: none;
+        font-size: 20px;
+        margin-top: 20px;
+        color: green;
+    }
+
+    .clock {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+</style>
+{%endblock%}
+
+{% block content %}
+    <h1>Progress of Tasks</h1>
+
+    <div class="progress-bar">
+        <div id="progress" class="progress">0%</div>
+    </div>
+    <div class="completed-message" id="completedMessage">All tasks completed!</div>
+
+    <div class="clock" id="clock"></div>
+
+    <div><a href="{% url 'tasks:game' %}">Play tictactoe</a></div>
+{% endblock %}
+
+{%block beforebodyend%}
+    <script>
+        const progressElement = $("#progress");
+        const completedMessage = $("#completedMessage");
+        const clockElement = $("#clock");
+        const DOMAIN_NAME = window.location.host;
+        const PROTOCOL = "ws://";
+
+        // WebSocket for ProgressConsumer
+        const progressSocket = new WebSocket(PROTOCOL + DOMAIN_NAME + "/ws/progress/");
+
+        progressSocket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            const progress = data.progress;
+
+            progressElement.css("width", progress + "%").text(progress + "%");
+
+            if (progress === 100) {
+                progressElement.css("background-color", "green");
+                progressElement.fadeOut(500);
+                completedMessage.fadeIn(500);
+            }
+        };
+
+        // WebSocket for ClockConsumer
+        const clockSocket = new WebSocket(PROTOCOL + DOMAIN_NAME + "/ws/clock/");
+
+        clockSocket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            clockElement.text("Current Time: " + data.clock);
+        };
+    </script>
+{% endblock %}

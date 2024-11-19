@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Chat {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="text-center" id="room_name">{{room_name}}</h2>
+            <div id="chat-box" class="border p-3 mb-3" style="height: 300px; overflow-y: scroll;">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="form-group">
+                <input type="text" id="message-input" class="form-control" placeholder="Type a message...">
+            </div>
+            <button id="send-button" class="btn btn-primary btn-block">Send</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block beforebodyend %}
+<script>
+    $(document).ready(function() {
+        const roomName = $("#room_name").text();
+        const chatBox = $("#chat-box");
+        const messageInput = $("#message-input");
+        const sendButton = $("#send-button");
+
+        // Establish WebSocket connection
+        const socket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + roomName + "/");
+
+        // When a message is received from the server
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const message = data.message;
+
+            // Append message to chat box
+            chatBox.append(`<div class="message">${message}</div>`);
+            chatBox.scrollTop(chatBox[0].scrollHeight);  // Scroll to the latest message
+        };
+
+        // When the WebSocket is opened
+        socket.onopen = function() {
+            console.log("WebSocket connection established.");
+        };
+
+        // When the WebSocket is closed
+        socket.onclose = function(e) {
+            console.log("WebSocket closed. Reason: " + e.reason);
+        };
+
+        // Send a message when the button is clicked
+        sendButton.click(function() {
+            const message = messageInput.val();
+            if (message.trim()) {
+                // Send the message to the WebSocket server
+                socket.send(JSON.stringify({ "message": message }));
+                messageInput.val('');  // Clear input field
+            }
+        });
+
+        // Send message on Enter key press
+        messageInput.keypress(function(e) {
+            if (e.which === 13) {  // Enter key
+                sendButton.click();
+            }
+        });
+    });
+</script>
+{% endblock %}

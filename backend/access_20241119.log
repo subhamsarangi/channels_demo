@@ -1,0 +1,16 @@
+127.0.0.1:41056 - - [19/Nov/2024:19:29:40] "GET /tasks/game" 200 2453
+127.0.0.1:41064 - - [19/Nov/2024:19:29:40] "WSCONNECTING /ws/game/" - -
+127.0.0.1:41064 - - [19/Nov/2024:19:29:40] "WSCONNECT /ws/game/" - -
+127.0.0.1:41056 - - [19/Nov/2024:19:29:44] "GET /tasks/" 200 3673
+127.0.0.1:41076 - - [19/Nov/2024:19:29:44] "WSCONNECTING /ws/progress/" - -
+127.0.0.1:41064 - - [19/Nov/2024:19:29:44] "WSDISCONNECT /ws/game/" - -
+127.0.0.1:41076 - - [19/Nov/2024:19:29:44] "WSCONNECT /ws/progress/" - -
+127.0.0.1:41082 - - [19/Nov/2024:19:29:44] "WSCONNECTING /ws/clock/" - -
+127.0.0.1:41082 - - [19/Nov/2024:19:29:44] "WSCONNECT /ws/clock/" - -
+127.0.0.1:41056 - - [19/Nov/2024:19:29:54] "GET /tasks/game" 200 2453
+127.0.0.1:41082 - - [19/Nov/2024:19:29:55] "WSDISCONNECT /ws/clock/" - -
+127.0.0.1:41076 - - [19/Nov/2024:19:29:55] "WSDISCONNECT /ws/progress/" - -
+127.0.0.1:41056 - - [19/Nov/2024:19:29:55] "GET /static/css/styles.css" 304 -
+127.0.0.1:60888 - - [19/Nov/2024:19:29:55] "WSCONNECTING /ws/game/" - -
+127.0.0.1:60888 - - [19/Nov/2024:19:29:55] "WSCONNECT /ws/game/" - -
+127.0.0.1:60888 - - [19/Nov/2024:19:30:00] "WSDISCONNECT /ws/game/" - -

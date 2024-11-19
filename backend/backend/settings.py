@@ -62,11 +62,11 @@ ASGI_APPLICATION = "backend.asgi.application"
 
 CHANNEL_LAYERS = {
     "default": {
-        # "BACKEND": "channels.layers.InMemoryChannelLayer"
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+        # "BACKEND": "channels_redis.core.RedisChannelLayer",
+        # "CONFIG": {
+        #     "hosts": [("127.0.0.1", 6379)],
+        # },
     },
 }
 
@@ -126,6 +126,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 LOGIN_URL = "myauth:login"
+LOGOUT_URL = "myauth:logout"
 LOGIN_REDIRECT_URL = "tasks:index"
 LOGOUT_REDIRECT_URL = "myauth:login"
 

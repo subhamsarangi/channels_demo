@@ -1,0 +1,13 @@
+usage: daphne [-h] [-p PORT] [-b HOST] [--websocket_timeout WEBSOCKET_TIMEOUT]
+              [--websocket_connect_timeout WEBSOCKET_CONNECT_TIMEOUT]
+              [-u UNIX_SOCKET] [--fd FILE_DESCRIPTOR] [-e SOCKET_STRINGS]
+              [-v VERBOSITY] [-t HTTP_TIMEOUT] [--access-log ACCESS_LOG]
+              [--log-fmt LOG_FMT] [--ping-interval PING_INTERVAL]
+              [--ping-timeout PING_TIMEOUT]
+              [--application-close-timeout APPLICATION_CLOSE_TIMEOUT]
+              [--root-path ROOT_PATH] [--proxy-headers]
+              [--proxy-headers-host PROXY_HEADERS_HOST]
+              [--proxy-headers-port PROXY_HEADERS_PORT] [-s SERVER_NAME]
+              [--no-server-name]
+              application
+daphne: error: unrecognized arguments: +%Y%m%d).log +%Y%m%d).log

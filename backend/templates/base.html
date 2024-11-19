@@ -28,8 +28,14 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'myauth:logout' %}">Logout</a>
+                            <a class="nav-link" href="{% url 'chat:chat' %}">Chat</a>
                         </li>
+                        <li class="nav-item">
+                            <form method="POST" action="{% url 'myauth:logout' %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link" style="border: none; background: none; color: inherit;">Logout</button>
+                            </form>
+                        </li>                        
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'myauth:login' %}">Login</a>

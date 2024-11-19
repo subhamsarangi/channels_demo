@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Chat Home {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <label for="roomname"><input type="text" id="roomname" value="default"></label>
+            <button id="button" class="btn btn-primary btn-block">Join or Create</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block beforebodyend %}
+<script>
+    $(document).ready(function() {
+        $('#button').on('click', function() {
+            var roomUrlPattern = "{% url 'chat:chat_room' room_name='dummy' %}";
+            var roomName = $('#roomname').val();
+            window.location.href = roomUrlPattern.replace('dummy', roomName);
+        });
+    });
+</script>
+{% endblock %}

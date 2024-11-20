@@ -1,9 +1,13 @@
 [tool.poetry]
-name = "ninja"
+name = "channels_demo"
 version = "0.1.0"
 description = ""
 authors = ["subhamivan <ivan.sarangi@gmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "backend" }
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -17,6 +21,9 @@ psycopg2-binary = "^2.9.9"
 mongoengine = "^0.29.1"
 pymongo = "^4.10.1"
 uvicorn = "^0.32.0"
+
+[tool.poetry.scripts]
+dev = "server:run"
 
 
 [build-system]

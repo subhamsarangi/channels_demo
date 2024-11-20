@@ -1,9 +1,0 @@
-2024-11-20 12:19:30,006 INFO     Starting server at tcp:port=8001:interface=0.0.0.0
-2024-11-20 12:19:30,006 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2024-11-20 12:19:30,006 INFO     Configuring endpoint tcp:port=8001:interface=0.0.0.0
-2024-11-20 12:19:30,007 INFO     Listening on TCP address 0.0.0.0:8001
-Not Found: /api/profile
-2024-11-20 12:19:53,772 WARNING  Not Found: /api/profile
-2024-11-20 12:19:58,166 WARNING  Application instance <Task pending name='Task-5' coro=<ProtocolTypeRouter.__call__() running at /home/ivan/.cache/pypoetry/virtualenvs/channels-demo-RYx1a6xX-py3.10/lib/python3.10/site-packages/channels/routing.py:48> wait_for=<Future pending cb=[Task.task_wakeup()]>> for connection <WebSocketProtocol client=['127.0.0.1', 40072] path=b'/ws/progress/'> took too long to shut down and was killed.
-2024-11-20 12:19:58,167 WARNING  Application instance <Task pending name='Task-8' coro=<ProtocolTypeRouter.__call__() running at /home/ivan/.cache/pypoetry/virtualenvs/channels-demo-RYx1a6xX-py3.10/lib/python3.10/site-packages/channels/routing.py:48> wait_for=<Future pending cb=[Task.task_wakeup()]>> for connection <WebSocketProtocol client=['127.0.0.1', 40082] path=b'/ws/clock/'> took too long to shut down and was killed.
-2024-11-20 12:20:15,293 INFO     Killed 0 pending application instances

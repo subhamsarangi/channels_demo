@@ -47,6 +47,13 @@ STATIC_ROOT = BASE_DIR / "static"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
     "handlers": {
         "console": {
             "level": "DEBUG",
@@ -54,15 +61,12 @@ LOGGING = {
         },
         "file": {
             "level": "DEBUG",
-            "class": "logging.FileHandler",
+            "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": os.path.join(BASE_DIR, "logs/django_dev.log"),
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console", "file"],
-            "level": "DEBUG",
-            "propagate": True,
+            "when": "M",
+            "interval": 1,
+            "backupCount": 7,
+            "encoding": "utf-8",
         },
     },
 }

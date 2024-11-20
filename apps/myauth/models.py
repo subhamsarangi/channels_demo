@@ -41,3 +41,7 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+    @property
+    def get_short_name(self):
+        return self.full_name[:5]

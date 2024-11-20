@@ -79,6 +79,10 @@ application = ProtocolTypeRouter({
 })
 ```
 
+### in Prod
+
+- run `poetry install --no-dev`
+
 ### If you want HTTP/2 support and TLS support
 
 - run `poetry add Twisted[http2,tls]`

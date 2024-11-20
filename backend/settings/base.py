@@ -5,7 +5,7 @@ import mongoengine
 
 load_dotenv()
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 AUTH_USER_MODEL = "myauth.User"
 
@@ -31,6 +31,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "backend.middleware.RestrictStaffToAdminMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -57,12 +58,6 @@ ASGI_APPLICATION = "backend.asgi.application"
 CHANNEL_LAYERS = {}
 
 DATABASES = {}
-
-mongoengine.connect(
-    db="ninja_db",
-    host="localhost",
-    port=27017,
-)
 
 AUTH_PASSWORD_VALIDATORS = [
     {

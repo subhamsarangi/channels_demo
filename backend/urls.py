@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls.static import static
 
 from apps.api.views import api_api
 from apps.chat.views import chat_api
 from apps.tasks.views import tasks_api
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -16,6 +16,8 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(
-        settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]
-    )
+    from django.conf.urls.static import static
+    from debug_toolbar.toolbar import debug_toolbar_urls
+
+    urlpatterns += debug_toolbar_urls()
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -7,7 +7,7 @@ from channels.auth import AuthMiddlewareStack
 from apps.tasks.routing import websocket_urlpatterns as ws_tasks
 from apps.chat.routing import websocket_urlpatterns as ws_chat
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings.dev")
 
 ws_patterns = ws_tasks + ws_chat
 

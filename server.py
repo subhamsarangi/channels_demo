@@ -1,7 +1,11 @@
+import os
 import subprocess
 
 
 def run():
+    logs_directory = os.path.join(os.getcwd(), "logs")
+    os.makedirs(logs_directory, exist_ok=True)
+
     command = [
         "daphne",
         "backend.asgi:application",

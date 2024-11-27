@@ -23,4 +23,4 @@ class ChatRoomMembership(models.Model):
         unique_together = ("user", "chat_room")
 
     def __str__(self):
-        return f"{self.user.username} in {self.chat_room.name}"
+        return f"{self.user.full_name} in {self.chat_room.name}"

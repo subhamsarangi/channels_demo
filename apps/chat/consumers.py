@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
@@ -28,10 +30,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
         try:
             data = json.loads(text_data)
             message = data["message"]
+            user_name = self.user.full_name
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
             await self.save_message(self.user, self.chat_room, message)
-            print(f"------> Data Received:: {self.room_group_name}, {data}")
+
             await self.channel_layer.group_send(
-                self.room_group_name, {"type": "chat_message", "message": message}
+                self.room_group_name,
+                {
+                    "type": "chat_message",
+                    "message": message,
+                    "user": user_name,
+                    "timestamp": timestamp,
+                },
             )
         except (json.JSONDecodeError, KeyError) as e:
             print(f"Error processing message: {e}")
@@ -39,9 +50,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def chat_message(self, event):
         message = event["message"]
+        user = event["user"]
+        timestamp = event["timestamp"]
+
         if self.channel_name:
             print("------> Event Sent::", self.room_group_name, message)
-            await self.send(text_data=json.dumps({"message": message}))
+            await self.send(
+                text_data=json.dumps(
+                    {"message": message, "user": user, "timestamp": timestamp}
+                )
+            )
 
     @database_sync_to_async
     def get_chatroom(self, room_name, is_group_chat):
@@ -66,6 +84,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         from .mongo_models import Message
 
         message = Message.objects.create(
-            user=user.id, chat_room=chat_room.id, content=content
+            user=user.id,
+            chat_room=chat_room.id,
+            content=content,
+            created_at=datetime.now(),
         )
         return message

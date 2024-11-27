@@ -15,7 +15,8 @@ class RestrictStaffToAdminMiddleware:
         if request.path.startswith(self.admin_url):
             if not request.user.is_authenticated:
                 raise PermissionDenied("You must be logged in to access this page.")
-            elif not request.user.is_staff:
+            elif not request.user.is_admin:
+                pass
                 raise PermissionDenied(
                     "Access denied. You must be a staff member to access this page."
                 )

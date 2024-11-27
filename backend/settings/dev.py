@@ -63,8 +63,8 @@ LOGGING = {
             "level": "DEBUG",
             "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": os.path.join(BASE_DIR, "logs/django_dev.log"),
-            "when": "M",
-            "interval": 1,
+            "when": "D",  # Rotate logs daily
+            "interval": 1,  # Rotate once per day
             "backupCount": 7,
             "encoding": "utf-8",
         },

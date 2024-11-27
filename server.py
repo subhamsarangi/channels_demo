@@ -1,8 +1,11 @@
 import os
 import subprocess
+import django
 
 
 def run():
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings.dev")
+    django.setup()
     logs_directory = os.path.join(os.getcwd(), "logs")
     os.makedirs(logs_directory, exist_ok=True)
 

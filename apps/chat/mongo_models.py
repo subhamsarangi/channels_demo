@@ -1,15 +1,20 @@
 import mongoengine as me
 
 
+class User(me.Document):
+    username = me.StringField(required=True)
+
+
+class ChatRoom(me.Document):
+    name = me.StringField(required=True)
+
+
 class Message(me.Document):
     """
-    Model representing a message sent by a user in a chat room or as a direct message.
-    Each message contains content, the user who sent it, and a reference
-    to the chat room where it was sent.
-    """
+    Model for a message sent to a GROUP CHAT or a DM"""
 
-    user = me.ReferenceField("myauth.User", required=True)
-    chat_room = me.ReferenceField("ChatRoom")
+    user = me.ReferenceField(User, required=True)
+    chat_room = me.ReferenceField(ChatRoom, required=True)
     content = me.StringField(required=True)
     created_at = me.DateTimeField(auto_now_add=True)
 

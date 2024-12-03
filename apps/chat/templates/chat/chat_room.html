@@ -2,31 +2,27 @@
 {% block title %}Chat {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h2 class="text-center" id="room_name">{{room_name}}</h2>
+    <div class="row" style="height: 80vh;">
+        <div class="col-md-12" id="chat-window">
+            <h2 class="text-center" id="room_name" data-slug="{{slug}}">{{name}}</h2>
 
-            <h4>Members:</h4>
-            <ul id="members-list">
-                {% for membership in members %}
-                    <li>{{ membership.user.full_name }}</li>
-                {% endfor %}
-            </ul>
-
-
-            <div id="chat-box" class="border p-3 mb-3" style="height: 300px; overflow-y: scroll;">
-                {% for message in chat_messages %}
-                    <div class="message">
-                        <strong>{{ message.user }}</strong> 
-                        <span class="text-muted">{{ message.created_at }}</span>
-                        <p>{{ message.content }}</p>
-                    </div>
-                {% endfor %}
+            <p>Members:</p>
+            <div id="members-list">
+                
             </div>
-            <div class="form-group">
-                <input type="text" id="message-input" class="form-control" placeholder="Type a message...">
+
+
+            <div id="chat-box" class="border p-3 mb-3">
+                <p>No messages yet</p>
             </div>
-            <button id="send-button" class="btn btn-primary btn-block">Send</button>
+
+            <div class="form-group d-flex align-items-center">
+                <input type="text" id="message-input" class="form-control noto-sans-2" placeholder="Type a message...">
+                <button id="send-button" class="btn btn-primary ml-2">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                </button>
+            </div>
+            
         </div>
     </div>
 {% endblock %}
@@ -34,12 +30,82 @@
 {% block beforebodyend %}
 <script>
     $(document).ready(function() {
-        const roomName = $("#room_name").text();
-        const chatBox = $("#chat-box");
+        const roomSlug = $("#room_name").data('slug');
+        const socket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + roomSlug + "/");
+        const chatBoxDiv = $("#chat-box");
+        const membersListDiv = $("#members-list");
+
+        function fetchMembers() {
+            $.ajax({
+                url: `/chat/members/${roomSlug}`,
+                method: 'GET',
+                success: function(response) {
+                    const members = response.members;
+                    membersListDiv.empty();
+                    members.forEach(function(member) {
+                        membersListDiv.append(`<span>${member} </span>`);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching members:", error);
+                    $("#members-list").append("<p>Error fetching members</p>");
+                }
+            });
+        }
+
+        function fetchMessages() {
+            $.ajax({
+                url: `/chat/messages/${roomSlug}`,
+                method: 'GET',
+                success: function(response) {
+                    const messages = response.messages;
+                    chatBoxDiv.empty();
+                    if (messages.length > 0) {
+                        messages.forEach(function(msg) {
+                            const content = msg.content;
+                            const user = msg.user;
+                            const created_at = msg.created_at;
+                            const message_by_self = msg.message_by_self;
+                            var messageHtml;
+                            if (message_by_self==true){
+                                messageHtml = `
+                                    <div class="message message-right">
+                                        <p class="message-content noto-sans-2">${content}</p>
+                                        <span class="text-muted message-time">${created_at}</span>
+                                    </div>
+                                `;
+                            }
+                            else{
+                                messageHtml = `
+                                    <div class="message message-left">
+                                        <strong class="message-sender noto-sans-1">${user}</strong>
+                                        <p class="message-content noto-sans-2">${content}</p>
+                                        <span class="text-muted message-time">${created_at}</span>
+                                    </div>
+                                `;
+                            }
+                            chatBoxDiv.append(messageHtml);
+                        });
+                    }
+                    chatBoxDiv.scrollTop(chatBoxDiv[0].scrollHeight);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching messages:", error);
+                    $("#chat-box").append("<p>Error fetching messages</p>");
+                }
+            });
+        }
+
+        fetchMembers();
+        fetchMessages();
+
+        // setInterval(function() {
+        //     fetchMessages();
+        // }, 5000);
+
         const messageInput = $("#message-input");
         const sendButton = $("#send-button");
 
-        const socket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + roomName + "/");
 
         socket.onopen = function() {
             console.log("WebSocket connection established.");
@@ -47,24 +113,36 @@
 
         socket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            const message = data.message;
+            const content = data.content;
             const user = data.user;
-            const timestamp = data.timestamp;
-
-            const messageHtml = `
-                <div class="message">
-                    <strong>${user}</strong> <span class="text-muted">[${timestamp}]</span>
-                    <p>${message}</p>
-                </div>
-            `;
-            chatBox.append(messageHtml);
-            chatBox.scrollTop(chatBox[0].scrollHeight);
+            const created_at = data.created_at;
+            const message_by_self = data.message_by_self;
+            var messageHtml;
+            if (message_by_self==true){
+                messageHtml = `
+                    <div class="message message-right">
+                        <p class="message-content noto-sans-2">${content}</p>
+                        <span class="text-muted message-time">${created_at}</span>
+                    </div>
+                `;
+            }
+            else{
+                messageHtml = `
+                    <div class="message message-left">
+                        <strong class="message-sender noto-sans-1">${user}</strong>
+                        <p class="message-content noto-sans-2">${content}</p>
+                        <span class="text-muted message-time">${created_at}</span>
+                    </div>
+                `;
+            }
+            chatBoxDiv.append(messageHtml);
+            chatBoxDiv.scrollTop(chatBoxDiv[0].scrollHeight);
         };
 
         sendButton.click(function() {
-            const message = messageInput.val();
-            if (message.trim()) {
-                socket.send(JSON.stringify({ "message": message }));
+            const content = messageInput.val();
+            if (content.trim()) {
+                socket.send(JSON.stringify({ "content": content }));
                 messageInput.val(''); 
             }
         });

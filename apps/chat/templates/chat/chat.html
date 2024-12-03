@@ -4,8 +4,19 @@
 {% block content %}
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <label for="roomname"><input type="text" id="roomname" value="default"></label>
-            <button id="button" class="btn btn-primary btn-block">Join or Create</button>
+            <ul>
+            {%for room in rooms%}
+                <li><a href="{% url 'chat:chat_room' slug=room.slug %}">{{room.name}}</a></li>
+            {%endfor%}
+            </ul>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <form action="{% url 'chat:create_chat_room' %}" method="post">
+                {% csrf_token %}
+                <label for="name"><input type="text" id="name" name="name"></label>
+                <button id="button" type="submit" class="btn btn-primary btn-block">Create Room now!</button>
+            </form>
+            
         </div>
     </div>
 {% endblock %}
@@ -13,11 +24,7 @@
 {% block beforebodyend %}
 <script>
     $(document).ready(function() {
-        $('#button').on('click', function() {
-            var roomUrlPattern = "{% url 'chat:chat_room' room_name='dummy' %}";
-            var roomName = $('#roomname').val();
-            window.location.href = roomUrlPattern.replace('dummy', roomName);
-        });
+        console.log("hey");
     });
 </script>
 {% endblock %}

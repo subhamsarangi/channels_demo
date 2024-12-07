@@ -16,7 +16,7 @@ try:
     mongoengine.connect(host=uri)
     print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
-    print(e)
+    print(uri, "\n", e)
 
 
 # CACHES = {
@@ -49,26 +49,26 @@ STATICFILES_DIRS = [
 ]
 
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "loggers": {
-        "django": {
-            "handlers": ["file"],
-            "level": "ERROR",
-            "propagate": False,
-        },
-    },
-    "handlers": {
-        "file": {
-            "level": "ERROR",
-            "class": "logging.handlers.TimedRotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/django_prod.log"),
-            "when": "midnight",
-            "interval": 1,
-            "backupCount": 7,
-            "encoding": "utf-8",
-            "suffix": "%Y-%m-%d",
-        },
-    },
-}
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "loggers": {
+#         "django": {
+#             "handlers": ["file"],
+#             "level": "ERROR",
+#             "propagate": False,
+#         },
+#     },
+#     "handlers": {
+#         "file": {
+#             "level": "ERROR",
+#             "class": "logging.handlers.TimedRotatingFileHandler",
+#             "filename": os.path.join(BASE_DIR, "logs/django_prod.log"),
+#             "when": "midnight",
+#             "interval": 1,
+#             "backupCount": 7,
+#             "encoding": "utf-8",
+#             "suffix": "%Y-%m-%d",
+#         },
+#     },
+# }

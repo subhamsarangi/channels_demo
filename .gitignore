@@ -1,6 +1,6 @@
 venv/
-.env
-.env_prod
+.env.dev
+.env.prod
 __pycache__/
 poetry.lock
 staticfiles/

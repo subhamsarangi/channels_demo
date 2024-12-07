@@ -24,7 +24,6 @@ def chat_rooms(request):
 @chat_router.post("")
 @login_required
 def create_chat_room(request):
-    print(request.method, "00000000000000")
     name = request.POST.get("name")
     new_room = ChatRoom.objects.create(name=name)
 

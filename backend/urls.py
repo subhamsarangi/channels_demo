@@ -1,14 +1,13 @@
-from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 
 from apps.api.views import api_api
 from apps.chat.views import chat_api
 from apps.tasks.views import tasks_api
-
+from .admin import custom_admin_site
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/", custom_admin_site.urls),
     path("auth/", include("apps.myauth.urls")),
     path("api/", api_api.urls),
     path("chat/", chat_api.urls),

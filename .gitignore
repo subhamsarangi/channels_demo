@@ -1,7 +1,9 @@
 venv/
 .env
+.env_prod
 __pycache__/
 poetry.lock
 staticfiles/
 logs/
 *.log
+deployment.txt

@@ -2,7 +2,6 @@ from .base import *
 
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
-TRUSTED_ADMIN_IP = "192.168.1.190"
 
 SECRET_KEY = "not-very-secure-in-dev"
 
@@ -22,24 +21,15 @@ def show_toolbar(request):
 
 SHOW_TOOLBAR_CALLBACK = show_toolbar
 
-DATABASES["default"] = {
-    "ENGINE": "django.db.backends.postgresql",
-    "NAME": os.getenv("DATABASE_NAME"),
-    "USER": os.getenv("DATABASE_USER"),
-    "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-    "HOST": os.getenv("DATABASE_HOST"),
-    "PORT": os.getenv("DATABASE_PORT"),
-}
-
-mongoengine.connect(
-    db="ninja_db",
-    host="localhost",
-    port=27017,
-)
-
 # SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
-CHANNEL_LAYERS["default"] = {"BACKEND": "channels.layers.InMemoryChannelLayer"}
+try:
+    mongoengine.connect(
+        host=os.getenv("MONGODB_CLUSTER"), db=os.getenv("MONGODB_DBNAME")
+    )
+    print("connected to local MongoDB!")
+except Exception as e:
+    print(e)
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"

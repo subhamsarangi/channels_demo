@@ -2,41 +2,32 @@ from .base import *
 
 DEBUG = False
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
-TRUSTED_ADMIN_IP = "14.143.172.206"
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-DATABASES["default"] = {
-    "ENGINE": "django.db.backends.postgresql",
-    "NAME": os.getenv("DATABASE_NAME"),
-    "USER": os.getenv("DATABASE_USER"),
-    "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-    "HOST": os.getenv("DATABASE_HOST"),
-    "PORT": os.getenv("DATABASE_PORT"),
-}
+username = os.getenv("MONGODB_USERNAME")
+password = os.getenv("MONGODB_PASSWORD")
+cluster = os.getenv("MONGODB_CLUSTER")
+dbname = os.getenv("MONGODB_DBNAME")
 
-mongoengine.connect(
-    db=os.getenv("MONGODB_NAME"),
-    host=os.getenv("MONGODB_HOST"),
-    port=os.getenv("MONGODB_PORT"),
-)
+uri = f"mongodb+srv://{username}:{password}@{cluster}/{dbname}?retryWrites=true&w=majority"
 
-CHANNEL_LAYERS["default"] = {
-    "BACKEND": "channels_redis.core.RedisChannelLayer",
-    "CONFIG": {
-        "hosts": [("127.0.0.1", 6379)],
-    },
-}
+try:
+    mongoengine.connect(host=uri)
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-    }
-}
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": f"redis://{os.getenv('REDIS_HOST')}:{os.getenv('REDIS_PORT')}/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         },
+#     }
+# }
 
 
 SECURE_SSL_REDIRECT = True

@@ -30,7 +30,7 @@ except Exception as e:
 # }
 
 
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True  # Ensures the CSRF cookie is only sent over HTTPS
 SESSION_COOKIE_SECURE = True  # Enforce the session cookie over HTTPS only
 SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access to session cookies

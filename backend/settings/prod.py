@@ -4,7 +4,7 @@ DEBUG = False
 ALLOWED_HOSTS = [os.getenv("DJANGO_ALLOWED_HOSTS")]
 
 CSRF_TRUSTED_ORIGINS = [
-    f'https://{os.getenv("DJANGO_ALLOWED_HOSTS")},
+    f'https://{os.getenv("DJANGO_ALLOWED_HOSTS")}',
 ]
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")

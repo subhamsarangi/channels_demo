@@ -31,7 +31,7 @@
 <script>
     $(document).ready(function() {
         const roomSlug = $("#room_name").data('slug');
-        const socket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + roomSlug + "/");
+        const socket = new WebSocket("wss://" + window.location.host + "/ws/chat/" + roomSlug + "/");
         const chatBoxDiv = $("#chat-box");
         const membersListDiv = $("#members-list");
 

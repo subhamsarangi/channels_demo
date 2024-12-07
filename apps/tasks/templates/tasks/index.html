@@ -52,7 +52,7 @@
         const completedMessage = $("#completedMessage");
         const clockElement = $("#clock");
         const DOMAIN_NAME = window.location.host;
-        const PROTOCOL = "ws://";
+        const PROTOCOL = "wss://";
 
         // WebSocket for ProgressConsumer
         const progressSocket = new WebSocket(PROTOCOL + DOMAIN_NAME + "/ws/progress/");

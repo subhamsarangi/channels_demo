@@ -10,7 +10,7 @@
     <div id="result"></div>
     <script>
         const DOMAIN_NAME = window.location.host;
-        const PROTOCOL = "ws://";
+        const PROTOCOL = "wss://";
         const socket = new WebSocket(PROTOCOL + DOMAIN_NAME + '/ws/game/');
 
         socket.onmessage = function (e) {

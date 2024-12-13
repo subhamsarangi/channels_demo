@@ -5,8 +5,9 @@ from django.utils.decorators import method_decorator
 from .utils import restrict_ip
 
 
+# provision for a module to add trusted ip address
 class CustomAdminSite(admin.AdminSite):
-    @method_decorator(restrict_ip(settings.TRUSTED_ADMIN_IPS))
+    @method_decorator(restrict_ip())
     def each_context(self, request):
         return super().each_context(request)
 

@@ -6,8 +6,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 AUTH_USER_MODEL = "myauth.User"
 
-TRUSTED_ADMIN_IPS = os.getenv("TRUSTED_ADMIN_IPS").split(",")
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "apps.myauth",

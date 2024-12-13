@@ -1,8 +1,6 @@
 import os
 
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings.dev")
 print(os.environ.get("DJANGO_SETTINGS_MODULE"), "|----------------------")
-
 
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter

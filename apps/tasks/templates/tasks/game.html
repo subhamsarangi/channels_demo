@@ -10,16 +10,16 @@
     <div id="result"></div>
     <script>
         const DOMAIN_NAME = window.location.host;
-        const PROTOCOL = "wss://";
-        const socket = new WebSocket(PROTOCOL + DOMAIN_NAME + '/ws/game/');
+        const PROTOCOL = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+        const gameSocket = new WebSocket(PROTOCOL + DOMAIN_NAME + '/ws/game/');
 
-        socket.onmessage = function (e) {
+        gameSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
             document.getElementById('result').innerText = `Computer chose: ${data.computer_move}. You ${data.result}!`;
         };
 
         function sendMove(move) {
-            socket.send(JSON.stringify({ 'move': move }));
+            gameSocket.send(JSON.stringify({ 'move': move }));
         }
     </script>
 {% endblock %}

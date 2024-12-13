@@ -15,7 +15,7 @@ def run():
         "--bind",
         "0.0.0.0",
         "--port",
-        "8001",
+        "8008",
     ]
 
     subprocess.run(" ".join(command), shell=True, check=True)

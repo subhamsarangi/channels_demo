@@ -31,7 +31,9 @@
 <script>
     $(document).ready(function() {
         const roomSlug = $("#room_name").data('slug');
-        const socket = new WebSocket("wss://" + window.location.host + "/ws/chat/" + roomSlug + "/");
+        const DOMAIN_NAME = window.location.host;
+        const PROTOCOL = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+        const chatSocket = new WebSocket(PROTOCOL + DOMAIN_NAME + "/ws/chat/" + roomSlug + "/");
         const chatBoxDiv = $("#chat-box");
         const membersListDiv = $("#members-list");
 
@@ -107,11 +109,11 @@
         const sendButton = $("#send-button");
 
 
-        socket.onopen = function() {
+        chatSocket.onopen = function() {
             console.log("WebSocket connection established.");
         };
 
-        socket.onmessage = function(e) {
+        chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             const content = data.content;
             const user = data.user;
@@ -142,7 +144,7 @@
         sendButton.click(function() {
             const content = messageInput.val();
             if (content.trim()) {
-                socket.send(JSON.stringify({ "content": content }));
+                chatSocket.send(JSON.stringify({ "content": content }));
                 messageInput.val(''); 
             }
         });
@@ -153,7 +155,7 @@
             }
         });
 
-        socket.onclose = function(e) {
+        chatSocket.onclose = function(e) {
             console.log("WebSocket closed. Reason: " + e.reason);
         };
     });

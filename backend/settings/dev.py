@@ -38,6 +38,12 @@ try:
 except Exception as e:
     print(e)
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}
+
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
 

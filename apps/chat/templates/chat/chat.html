@@ -6,14 +6,14 @@
         <div class="col-md-6 offset-md-3">
             <ul>
             {%for room in rooms%}
-                <li><a href="{% url 'chat:chat_room' slug=room.slug %}">{%if room.name%}{{room.name}}{%else%}Room ({{room.slug}}){%endif%}</a></li>
+                <li><a href="{% url 'chat:chat_room' slug=room.slug %}">{%if room.name%}{{room.name}}{%else%}Unnamed Room ({{room.slug}}){%endif%}</a></li>
             {%endfor%}
             </ul>
         </div>
         <div class="col-md-6 offset-md-3">
             <form action="{% url 'chat:create_chat_room' %}" method="post">
                 {% csrf_token %}
-                <label for="name"><input required type="text" id="name" name="name"></label>
+                <label for="name"><input required type="text" id="name" name="name" placeholder="name of the room"></label>
                 <button id="button" type="submit" class="btn btn-primary btn-block">Create Room now!</button>
             </form>
             

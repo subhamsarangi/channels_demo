@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Edit Chat {% endblock %}
+
+{% block content %}
+    <h1>Edit Your Message</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="content">Message Content:</label><br>
+        <textarea id="content" name="content" rows="4" cols="50">{{ message.content }}</textarea><br>
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <br>
+    <a href="{% url 'chat:message_management' %}">Back to Message Management</a>
+{% endblock %}

@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.conf import settings
 from django.utils.decorators import method_decorator
 
 from .utils import restrict_ip

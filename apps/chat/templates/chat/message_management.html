@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Chat Management Home{% endblock %}
+
+{% block content %}
+    <h1>Los Mensajes</h1>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {% for msg in chatmessages %}
+                <li>
+                    <span>{{ msg.created_at }}:</span> <strong>{{ msg.user }}</strong> {{ msg.content }}
+                    <br>
+                    <a href="{% url 'chat:edit_message' message_id=msg.id %}">Edit</a> | 
+                    <a href="{% url 'chat:confirm_delete_message' message_id=msg.id %}">Delete</a>
+                </li>
+            {% endfor %}
+        </div>
+        <hr><br>
+
+        <div class="col-md-6 offset-md-3">
+            {% if page.has_previous %}
+                <a href="?page={{ page.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span>Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+            {% if page.has_next %}
+                <a href="?page={{ page.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+
+        <hr><br><br>
+
+        <div class="col-md-6 offset-md-3">
+            <a href="{% url 'chat:chat_rooms' %}"><button class="btn btn-secondary btn-block">Back to Chat Rooms</button></a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block beforebodyend %}
+    <script>
+        $(document).ready(function() {
+            console.log("hey");
+        });
+    </script>
+{% endblock %}

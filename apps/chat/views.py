@@ -1,7 +1,8 @@
 from typing import List
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator
+from django.http import Http404
 from ninja import Router, NinjaAPI
 from ninja.responses import Response
 
@@ -90,3 +91,100 @@ def chat_room_messages(request, slug: str):
         )
 
     return Response({"messages": formatted_messages})
+
+
+## messages admininstration
+
+
+@chat_router.get("/management/messages")
+@login_required
+def message_management(request):
+    if request.user.is_admin == False:
+        return render(request, "error.html", {"message": "You cannot see this page"})
+
+    messages = Message.objects.filter(user=request.user.id).order_by("-created_at")
+    formatted_messages = []
+    for msg in messages:
+        user = User.objects.get(id=msg.user)
+        formatted_messages.append(
+            {
+                "id": msg.id,
+                "user": user.full_name,
+                "content": msg.content,
+                "created_at": msg.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            }
+        )
+
+    paginator = Paginator(formatted_messages, 5)
+    page_number = request.GET.get("page", 1)
+    page = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "chat/message_management.html",
+        {
+            "chatmessages": page.object_list,
+            "page": page,
+        },
+    )
+
+
+@chat_router.get("/management/message/{message_id}/edit")
+@login_required
+def edit_message(request, message_id: str):
+    if request.user.is_admin == False:
+        return render(request, "error.html", {"message": "You cannot see this page"})
+
+    message = Message.objects.filter(id=message_id).first()
+
+    if not message:
+        raise Http404("Message not found")
+
+    return render(request, "chat/edit_message.html", {"message": message})
+
+
+@chat_router.post("/management/message/{message_id}/edit")
+@login_required
+def update_message(request, message_id: str):
+    if request.user.is_admin == False:
+        return render(request, "error.html", {"message": "You cannot see this page"})
+
+    message = Message.objects.filter(id=message_id).first()
+
+    if not message:
+        raise Http404("Message not found")
+
+    new_content = request.POST.get("content")
+    message.content = new_content
+    message.save()
+
+    return redirect("chat:message_management")
+
+
+@chat_router.get("/management/message/{message_id}/delete")
+@login_required
+def confirm_delete_message(request, message_id: str):
+    if request.user.is_admin == False:
+        return render(request, "error.html", {"message": "You cannot see this page"})
+
+    message = Message.objects.filter(id=message_id).first()
+
+    if not message:
+        raise Http404("Message not found")
+
+    return render(request, "chat/confirm_delete_message.html", {"message": message})
+
+
+@chat_router.post("/management/message/{message_id}/delete")
+@login_required
+def delete_message(request, message_id: str):
+    if request.user.is_admin == False:
+        return render(request, "error.html", {"message": "You cannot see this page"})
+
+    message = Message.objects.filter(id=message_id).first()
+
+    if not message:
+        raise Http404("Message not found")
+
+    message.delete()
+    return redirect("chat:message_management")
